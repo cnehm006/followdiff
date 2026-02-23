@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Features - FollowDiff</title>
+    <meta name="description" content="Learn how FollowDiff helps you track Instagram follower changes. Save snapshots, compare over time, export data." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #1a1a1f;
+        --card: #242429;
+        --card-elevated: #2a2a30;
+        --text: #f0f0f2;
+        --text-secondary: #9a9aa3;
+        --text-muted: #6a6a73;
+        --border: rgba(255, 255, 255, 0.08);
+        --accent: #7c5cff;
+        --accent-hover: #8d70ff;
+        --accent-muted: rgba(124, 92, 255, 0.15);
+        --success: #34d399;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 20px 0;
+        background: rgba(26, 26, 31, 0.9);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      nav .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      .logo img {
+        width: 32px;
+        height: 32px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 36px;
+        align-items: center;
+      }
+
+      .nav-links a {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--text);
+      }
+
+      /* Page header */
+      .page-header {
+        padding: 140px 0 60px;
+        text-align: center;
+      }
+
+      .page-header h1 {
+        font-size: 48px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        margin-bottom: 16px;
+      }
+
+      .page-header p {
+        font-size: 18px;
+        color: var(--text-secondary);
+        max-width: 540px;
+        margin: 0 auto;
+      }
+
+      /* Sections */
+      section {
+        padding: 80px 0;
+      }
+
+      .section-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .section-title {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        text-align: center;
+        margin-bottom: 48px;
+      }
+
+      /* Features Grid */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .feature-card {
+        padding: 28px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        transition: all 0.2s ease;
+      }
+
+      .feature-card:hover {
+        border-color: rgba(124, 92, 255, 0.3);
+        transform: translateY(-4px);
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--accent-muted);
+        border-radius: 12px;
+        margin-bottom: 20px;
+        color: var(--accent);
+      }
+
+      .feature-icon svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .feature-card h3 {
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .feature-card p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* How It Works */
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+
+      .step {
+        text-align: center;
+      }
+
+      .step-number {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--accent);
+        background: var(--accent-muted);
+        border-radius: 50%;
+        margin: 0 auto 24px;
+      }
+
+      .step h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .step p {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* Privacy Section */
+      .privacy-card {
+        background: linear-gradient(135deg, rgba(124, 92, 255, 0.08) 0%, rgba(168, 85, 247, 0.04) 100%);
+        border: 1px solid rgba(124, 92, 255, 0.15);
+        border-radius: 24px;
+        padding: 64px;
+        text-align: center;
+      }
+
+      .privacy-card h2 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 16px;
+      }
+
+      .privacy-card > p {
+        font-size: 17px;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto 40px;
+        line-height: 1.7;
+      }
+
+      .privacy-badges {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .privacy-badge {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+      }
+
+      .privacy-badge svg {
+        width: 18px;
+        height: 18px;
+        color: var(--success);
+      }
+
+      /* CTA Section */
+      .cta {
+        text-align: center;
+        padding: 100px 0;
+      }
+
+      .cta h2 {
+        font-size: 44px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 16px;
+      }
+
+      .cta p {
+        font-size: 18px;
+        color: var(--text-secondary);
+        margin-bottom: 36px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 16px 32px;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: inherit;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn:hover {
+        background: var(--card-elevated);
+        border-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .btn.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: white;
+        box-shadow: 0 8px 32px rgba(124, 92, 255, 0.25);
+      }
+
+      .btn.primary:hover {
+        background: var(--accent-hover);
+        border-color: var(--accent-hover);
+      }
+
+      /* Footer */
+      footer {
+        padding: 24px 0;
+        border-top: 1px solid var(--border);
+      }
+
+      footer .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      footer p {
+        font-size: 13px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      footer .heart {
+        color: #ec4899;
+      }
+
+      footer a {
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      footer a:hover {
+        color: var(--text);
+      }
+
+      footer .author {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      footer .author:hover {
+        color: var(--accent-hover);
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .features-grid,
+        .steps {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .page-header {
+          padding: 120px 0 40px;
+        }
+
+        .page-header h1 {
+          font-size: 36px;
+        }
+
+        .privacy-card {
+          padding: 40px 24px;
+        }
+
+        .cta h2 {
+          font-size: 32px;
+        }
+
+        footer .container {
+          flex-direction: column;
+          gap: 16px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="logo.png" alt="FollowDiff logo" />
+          FollowDiff
+        </a>
+        <div class="nav-links">
+          <a href="features.html" class="active">Features</a>
+          <a href="privacy.html">Privacy</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="page-header">
+      <div class="container">
+        <h1>How FollowDiff Works</h1>
+        <p>Everything you need to track Instagram follower changes, all running locally in your browser.</p>
+      </div>
+    </header>
+
+    <section>
+      <div class="container">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Built for privacy and simplicity</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3>Save Snapshots</h3>
+            <p>Capture a profile's complete follower and following list at any moment. Save as many snapshots as you need.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M8 21H3v-5"/><path d="M21 3 9 15"/><path d="M3 21 15 9"/></svg>
+            </div>
+            <h3>Compare Changes</h3>
+            <p>Select any two snapshots and instantly see who followed, unfollowed, or was removed between them.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            </div>
+            <h3>Export Data</h3>
+            <p>Download snapshots as JSON or export follower lists as plain text. Your data, your format.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3>100% Private</h3>
+            <p>All data stays in your browser's local storage. Nothing is ever sent to external servers.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>Track Multiple Profiles</h3>
+            <p>Monitor as many Instagram accounts as you want. Each profile has its own snapshot history.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+            </div>
+            <h3>Fast Fetching</h3>
+            <p>Efficiently fetches follower data using Instagram's web APIs. Optional slow mode for large accounts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">Three simple steps</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Install the Extension</h3>
+            <p>Add FollowDiff to Chrome from the Chrome Web Store. It's completely free and takes just seconds to install.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Take a Snapshot</h3>
+            <p>Visit any Instagram profile or enter a username in the dashboard. Click Start to save a complete snapshot of their followers and following.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Compare Over Time</h3>
+            <p>Come back later, take another snapshot, and compare any two to see exactly who followed or unfollowed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="privacy-card">
+          <h2>Your data stays with you</h2>
+          <p>FollowDiff runs entirely in your browser. All snapshots are stored locally using Chrome's storage API. We have no servers, no accounts, and absolutely no access to your data.</p>
+          <div class="privacy-badges">
+            <div class="privacy-badge">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              No account required
+            </div>
+            <div class="privacy-badge">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              No external servers
+            </div>
+            <div class="privacy-badge">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Data stored locally
+            </div>
+            <div class="privacy-badge">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Open source friendly
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Start tracking today</h2>
+        <p>See who's following and unfollowing any public Instagram account.</p>
+        <a href="#" class="btn primary">Download for Chrome</a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>Made with <span class="heart">&#9829;</span> by <a href="https://github.com/cnehm006" target="_blank" class="author">cnehm006</a></p>
+        <div class="footer-links">
+          <a href="https://github.com/cnehm006/followdiff" target="_blank">Source Code</a>
+          <a href="privacy.html">Privacy Policy</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
