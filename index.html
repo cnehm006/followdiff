@@ -253,7 +253,8 @@
         transition: opacity 0.2s ease;
       }
 
-      .btn.coming-soon:hover .btn-text {
+      .btn.coming-soon:hover .btn-text,
+      .btn.coming-soon.tapped .btn-text {
         opacity: 0;
       }
 
@@ -267,11 +268,13 @@
         transition: opacity 0.2s ease;
       }
 
-      .btn.coming-soon:hover .btn-hover-text {
+      .btn.coming-soon:hover .btn-hover-text,
+      .btn.coming-soon.tapped .btn-hover-text {
         opacity: 1;
       }
 
-      .btn.coming-soon:hover {
+      .btn.coming-soon:hover,
+      .btn.coming-soon.tapped {
         transform: none;
         background: var(--card);
         border-color: var(--border);
@@ -556,6 +559,14 @@
       });
 
       setInterval(() => goTo((current + 1) % total), 4000);
+
+      document.querySelectorAll('.btn.coming-soon').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          btn.classList.add('tapped');
+          setTimeout(() => btn.classList.remove('tapped'), 2000);
+        });
+      });
     </script>
   </body>
 </html>

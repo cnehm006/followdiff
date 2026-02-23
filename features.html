@@ -331,6 +331,43 @@
         border-color: var(--accent-hover);
       }
 
+      .btn.coming-soon {
+        cursor: default;
+        position: relative;
+      }
+
+      .btn.coming-soon .btn-text {
+        transition: opacity 0.2s ease;
+      }
+
+      .btn.coming-soon:hover .btn-text,
+      .btn.coming-soon.tapped .btn-text {
+        opacity: 0;
+      }
+
+      .btn.coming-soon .btn-hover-text {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      .btn.coming-soon:hover .btn-hover-text,
+      .btn.coming-soon.tapped .btn-hover-text {
+        opacity: 1;
+      }
+
+      .btn.coming-soon:hover,
+      .btn.coming-soon.tapped {
+        transform: none;
+        background: var(--card);
+        border-color: var(--border);
+        box-shadow: none;
+      }
+
       /* Footer */
       footer {
         padding: 24px 0;
@@ -545,7 +582,10 @@
       <div class="container">
         <h2>Start tracking today</h2>
         <p>See who's following and unfollowing any public Instagram account.</p>
-        <a href="#" class="btn primary">Download for Chrome</a>
+        <span class="btn primary coming-soon">
+          <span class="btn-text">Download for Chrome</span>
+          <span class="btn-hover-text">Coming Soon</span>
+        </span>
       </div>
     </section>
 
@@ -558,5 +598,15 @@
         </div>
       </div>
     </footer>
+
+    <script>
+      document.querySelectorAll('.btn.coming-soon').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          btn.classList.add('tapped');
+          setTimeout(() => btn.classList.remove('tapped'), 2000);
+        });
+      });
+    </script>
   </body>
 </html>
