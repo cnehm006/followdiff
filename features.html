@@ -768,6 +768,9 @@
       const filmFrames = document.querySelectorAll('.film-frame');
       const previewCards = document.querySelectorAll('.preview-card');
       let activeIndex = null;
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchStartTime = 0;
 
       function showPreview(index) {
         activeIndex = index;
@@ -789,20 +792,34 @@
         frame.addEventListener('mouseenter', () => showPreview(frame.dataset.index));
         frame.addEventListener('mouseleave', () => hidePreview());
 
-        // Touch events for mobile
+        // Touch events for mobile - detect tap vs drag
         frame.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          const index = frame.dataset.index;
-          if (activeIndex === index) {
-            hidePreview();
-          } else {
-            showPreview(index);
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          touchStartTime = Date.now();
+        }, { passive: true });
+
+        frame.addEventListener('touchend', (e) => {
+          const touchEndX = e.changedTouches[0].clientX;
+          const touchEndY = e.changedTouches[0].clientY;
+          const touchDuration = Date.now() - touchStartTime;
+          const moveX = Math.abs(touchEndX - touchStartX);
+          const moveY = Math.abs(touchEndY - touchStartY);
+
+          // Only trigger if it's a tap (minimal movement, quick touch)
+          if (moveX < 10 && moveY < 10 && touchDuration < 300) {
+            const index = frame.dataset.index;
+            if (activeIndex === index) {
+              hidePreview();
+            } else {
+              showPreview(index);
+            }
           }
-        }, { passive: false });
+        }, { passive: true });
       });
 
       // Tap outside to close on mobile
-      document.addEventListener('touchstart', (e) => {
+      document.addEventListener('touchend', (e) => {
         if (!e.target.closest('.film-frame') && !e.target.closest('.preview-card')) {
           hidePreview();
         }
