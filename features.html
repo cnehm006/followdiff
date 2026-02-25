@@ -247,8 +247,9 @@
       .film-frame:nth-child(7) { margin-bottom: 17px; transform: rotateX(7deg); }
       .film-frame:nth-child(8) { margin-bottom: 0px; transform: rotateX(10deg); }
 
-      /* Grey out on hover */
-      .film-frame:hover {
+      /* Grey out on hover/active */
+      .film-frame:hover,
+      .film-frame.active {
         opacity: 0.4;
         filter: grayscale(0.5);
       }
@@ -766,18 +767,45 @@
     <script>
       const filmFrames = document.querySelectorAll('.film-frame');
       const previewCards = document.querySelectorAll('.preview-card');
+      let activeIndex = null;
+
+      function showPreview(index) {
+        activeIndex = index;
+        filmFrames.forEach(f => f.classList.remove('active'));
+        document.querySelector(`.film-frame[data-index="${index}"]`)?.classList.add('active');
+        previewCards.forEach(card => {
+          card.classList.toggle('active', card.dataset.preview === index);
+        });
+      }
+
+      function hidePreview() {
+        activeIndex = null;
+        filmFrames.forEach(f => f.classList.remove('active'));
+        previewCards.forEach(card => card.classList.remove('active'));
+      }
 
       filmFrames.forEach(frame => {
-        frame.addEventListener('mouseenter', () => {
-          const index = frame.dataset.index;
-          previewCards.forEach(card => {
-            card.classList.toggle('active', card.dataset.preview === index);
-          });
-        });
+        // Mouse events for desktop
+        frame.addEventListener('mouseenter', () => showPreview(frame.dataset.index));
+        frame.addEventListener('mouseleave', () => hidePreview());
 
-        frame.addEventListener('mouseleave', () => {
-          previewCards.forEach(card => card.classList.remove('active'));
-        });
+        // Touch events for mobile
+        frame.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          const index = frame.dataset.index;
+          if (activeIndex === index) {
+            hidePreview();
+          } else {
+            showPreview(index);
+          }
+        }, { passive: false });
+      });
+
+      // Tap outside to close on mobile
+      document.addEventListener('touchstart', (e) => {
+        if (!e.target.closest('.film-frame') && !e.target.closest('.preview-card')) {
+          hidePreview();
+        }
       });
     </script>
 
