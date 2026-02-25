@@ -204,7 +204,7 @@
         gap: 16px;
         justify-content: center;
         flex-wrap: wrap;
-        margin-bottom: 64px;
+        margin-bottom: 48px;
       }
 
       .btn {
@@ -232,53 +232,50 @@
       }
 
       .btn.primary {
-        background: var(--accent);
-        border-color: var(--accent);
+        background: linear-gradient(135deg, var(--accent) 0%, #9d7fff 50%, var(--accent) 100%);
+        background-size: 200% 200%;
+        background-position: 0% 50%;
+        border-color: transparent;
         color: white;
         box-shadow: 0 8px 32px rgba(124, 92, 255, 0.25);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+      }
+
+      .btn.primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
       }
 
       .btn.primary:hover {
-        background: var(--accent-hover);
-        border-color: var(--accent-hover);
-        box-shadow: 0 12px 40px rgba(124, 92, 255, 0.35);
+        background-position: 100% 50%;
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(124, 92, 255, 0.4), 0 0 20px rgba(124, 92, 255, 0.2);
       }
 
-      .btn.coming-soon {
-        cursor: default;
-        position: relative;
+      .btn.primary:hover::before {
+        left: 100%;
       }
 
-      .btn.coming-soon .btn-text {
-        transition: opacity 0.2s ease;
+      .btn.primary svg {
+        transition: transform 0.3s ease;
       }
 
-      .btn.coming-soon:hover .btn-text,
-      .btn.coming-soon.tapped .btn-text {
-        opacity: 0;
+      .btn.primary:hover svg {
+        animation: downloadBounce 0.5s ease;
       }
 
-      .btn.coming-soon .btn-hover-text {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-      }
-
-      .btn.coming-soon:hover .btn-hover-text,
-      .btn.coming-soon.tapped .btn-hover-text {
-        opacity: 1;
-      }
-
-      .btn.coming-soon:hover,
-      .btn.coming-soon.tapped {
-        transform: none;
-        background: var(--card);
-        border-color: var(--border);
-        box-shadow: none;
+      @keyframes downloadBounce {
+        0%, 100% { transform: translateY(0); }
+        30% { transform: translateY(3px); }
+        60% { transform: translateY(-2px); }
       }
 
       .btn svg {
@@ -479,14 +476,23 @@
     </nav>
 
     <main class="main">
-      <div class="hero-badge">
-        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
-        Chrome Extension
-      </div>
-
       <h1>Track Instagram<br><span class="gradient-text">follower changes</span></h1>
 
-      <p class="subtitle">Save snapshots of any public profile. Compare them over time to see exactly who followed or unfollowed.</p>
+      <p class="subtitle">No data downloads. No uploads. Just click and track who followed or unfollowed.</p>
+
+      <div class="hero-buttons">
+        <a href="https://chromewebstore.google.com/detail/aaceanoaafnpeenehkddbmmjlhgeodkd" target="_blank" class="btn primary">
+          <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Add to Chrome
+        </a>
+        <a href="https://github.com/cnehm006/followdiff" target="_blank" class="btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="features.html" class="btn">
+          Learn More
+        </a>
+      </div>
 
       <div class="slideshow-container">
         <div class="slideshow" id="slideshow">
@@ -499,31 +505,18 @@
         </div>
       </div>
 
-      <div class="hero-buttons">
-        <span class="btn primary coming-soon">
-          <span class="btn-text">
-            <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-            Download for Chrome
-          </span>
-          <span class="btn-hover-text">Coming Soon</span>
-        </span>
-        <a href="https://github.com/cnehm006/followdiff" target="_blank" class="btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-          GitHub
-        </a>
-        <a href="features.html" class="btn">
-          Learn More
-        </a>
-      </div>
-
       <div class="highlights">
         <div class="highlight">
           <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          100% Private
+          One-click tracking
         </div>
         <div class="highlight">
           <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          No account needed
+          100% local & private
+        </div>
+        <div class="highlight">
+          <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Open source
         </div>
         <div class="highlight">
           <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -559,14 +552,6 @@
       });
 
       setInterval(() => goTo((current + 1) % total), 4000);
-
-      document.querySelectorAll('.btn.coming-soon').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.preventDefault();
-          btn.classList.add('tapped');
-          setTimeout(() => btn.classList.remove('tapped'), 2000);
-        });
-      });
     </script>
   </body>
 </html>

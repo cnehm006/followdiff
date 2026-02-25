@@ -140,53 +140,148 @@
         margin-bottom: 48px;
       }
 
-      /* Features Grid */
-      .features-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+      /* Film Roll */
+      .film-roll-section {
+        position: relative;
+        padding: 40px 0 80px;
       }
 
-      .feature-card {
-        padding: 28px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        transition: all 0.2s ease;
+      .preview-zone {
+        height: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 40px;
+        position: relative;
       }
 
-      .feature-card:hover {
-        border-color: rgba(124, 92, 255, 0.3);
-        transform: translateY(-4px);
+      .preview-card {
+        position: absolute;
+        width: 340px;
+        padding: 32px;
+        background: var(--card-elevated);
+        border: 1px solid var(--accent);
+        border-radius: 20px;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4), 0 0 60px rgba(124, 92, 255, 0.15);
       }
 
-      .feature-icon {
-        width: 48px;
-        height: 48px;
+      .preview-card.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .preview-card .preview-icon {
+        width: 64px;
+        height: 64px;
         display: flex;
         align-items: center;
         justify-content: center;
         background: var(--accent-muted);
-        border-radius: 12px;
-        margin-bottom: 20px;
+        border-radius: 16px;
+        margin: 0 auto 20px;
+        color: var(--accent);
+        box-shadow: 0 0 30px rgba(124, 92, 255, 0.3);
+      }
+
+      .preview-card .preview-icon svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      .preview-card h4 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 12px;
         color: var(--accent);
       }
 
-      .feature-icon svg {
-        width: 24px;
-        height: 24px;
-      }
-
-      .feature-card h3 {
-        font-size: 17px;
-        font-weight: 600;
-        margin-bottom: 8px;
-      }
-
-      .feature-card p {
-        font-size: 14px;
+      .preview-card p {
+        font-size: 15px;
         color: var(--text-secondary);
         line-height: 1.6;
+      }
+
+      .film-roll-wrapper {
+        width: 100%;
+        overflow: visible;
+        perspective: 800px;
+      }
+
+      .film-roll {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 10px;
+        transform-style: preserve-3d;
+        height: 160px;
+        padding-bottom: 20px;
+        pointer-events: none;
+      }
+
+      .film-frame {
+        flex-shrink: 0;
+        width: 110px;
+        padding: 14px 10px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        text-align: center;
+        transition: all 0.3s ease;
+        transform-origin: center bottom;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      /* Create the arc using margin-bottom instead of transform for proper hit areas */
+      .film-frame:nth-child(1) { margin-bottom: 0px; transform: rotateX(10deg); }
+      .film-frame:nth-child(2) { margin-bottom: 17px; transform: rotateX(7deg); }
+      .film-frame:nth-child(3) { margin-bottom: 31px; transform: rotateX(4deg); }
+      .film-frame:nth-child(4) { margin-bottom: 41px; transform: rotateX(0deg); }
+      .film-frame:nth-child(5) { margin-bottom: 41px; transform: rotateX(0deg); }
+      .film-frame:nth-child(6) { margin-bottom: 31px; transform: rotateX(4deg); }
+      .film-frame:nth-child(7) { margin-bottom: 17px; transform: rotateX(7deg); }
+      .film-frame:nth-child(8) { margin-bottom: 0px; transform: rotateX(10deg); }
+
+      /* Grey out on hover */
+      .film-frame:hover {
+        opacity: 0.4;
+        filter: grayscale(0.5);
+      }
+
+      .film-frame-icon {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--accent-muted);
+        border-radius: 8px;
+        margin: 0 auto 8px;
+        color: var(--accent);
+      }
+
+      .film-frame-icon svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .film-frame h3 {
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 2px;
+        letter-spacing: -0.01em;
+      }
+
+      .film-frame p {
+        font-size: 9px;
+        color: var(--text-secondary);
+        line-height: 1.3;
+        display: none;
       }
 
       /* How It Works */
@@ -310,7 +405,7 @@
         color: var(--text);
         text-decoration: none;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
       }
 
       .btn:hover {
@@ -320,52 +415,50 @@
       }
 
       .btn.primary {
-        background: var(--accent);
-        border-color: var(--accent);
+        background: linear-gradient(135deg, var(--accent) 0%, #9d7fff 50%, var(--accent) 100%);
+        background-size: 200% 200%;
+        background-position: 0% 50%;
+        border-color: transparent;
         color: white;
         box-shadow: 0 8px 32px rgba(124, 92, 255, 0.25);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+      }
+
+      .btn.primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
       }
 
       .btn.primary:hover {
-        background: var(--accent-hover);
-        border-color: var(--accent-hover);
+        background-position: 100% 50%;
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(124, 92, 255, 0.4), 0 0 20px rgba(124, 92, 255, 0.2);
       }
 
-      .btn.coming-soon {
-        cursor: default;
-        position: relative;
+      .btn.primary:hover::before {
+        left: 100%;
       }
 
-      .btn.coming-soon .btn-text {
-        transition: opacity 0.2s ease;
+      .btn.primary svg {
+        transition: transform 0.3s ease;
       }
 
-      .btn.coming-soon:hover .btn-text,
-      .btn.coming-soon.tapped .btn-text {
-        opacity: 0;
+      .btn.primary:hover svg {
+        animation: downloadBounce 0.5s ease;
       }
 
-      .btn.coming-soon .btn-hover-text {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-      }
-
-      .btn.coming-soon:hover .btn-hover-text,
-      .btn.coming-soon.tapped .btn-hover-text {
-        opacity: 1;
-      }
-
-      .btn.coming-soon:hover,
-      .btn.coming-soon.tapped {
-        transform: none;
-        background: var(--card);
-        border-color: var(--border);
-        box-shadow: none;
+      @keyframes downloadBounce {
+        0%, 100% { transform: translateY(0); }
+        30% { transform: translateY(3px); }
+        60% { transform: translateY(-2px); }
       }
 
       /* Footer */
@@ -420,7 +513,6 @@
 
       /* Responsive */
       @media (max-width: 900px) {
-        .features-grid,
         .steps {
           grid-template-columns: 1fr;
         }
@@ -437,6 +529,82 @@
 
         .page-header h1 {
           font-size: 36px;
+        }
+
+        .preview-zone {
+          height: 180px;
+          margin-bottom: 24px;
+        }
+
+        .preview-card {
+          width: 90%;
+          max-width: 300px;
+          padding: 24px;
+        }
+
+        .preview-card .preview-icon {
+          width: 48px;
+          height: 48px;
+          margin-bottom: 14px;
+        }
+
+        .preview-card .preview-icon svg {
+          width: 24px;
+          height: 24px;
+        }
+
+        .preview-card h4 {
+          font-size: 18px;
+          margin-bottom: 8px;
+        }
+
+        .preview-card p {
+          font-size: 13px;
+        }
+
+        .film-roll-wrapper {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .film-roll {
+          justify-content: flex-start;
+          padding: 0 20px;
+          gap: 8px;
+        }
+
+        .film-frame {
+          width: 80px;
+          padding: 10px 8px;
+        }
+
+        .film-roll {
+          height: 120px;
+        }
+
+        .film-frame:nth-child(1),
+        .film-frame:nth-child(8) { margin-bottom: 0px; }
+        .film-frame:nth-child(2),
+        .film-frame:nth-child(7) { margin-bottom: 10px; }
+        .film-frame:nth-child(3),
+        .film-frame:nth-child(6) { margin-bottom: 18px; }
+        .film-frame:nth-child(4),
+        .film-frame:nth-child(5) { margin-bottom: 24px; }
+
+        .film-frame-icon {
+          width: 26px;
+          height: 26px;
+          border-radius: 6px;
+          margin-bottom: 6px;
+        }
+
+        .film-frame-icon svg {
+          width: 14px;
+          height: 14px;
+        }
+
+        .film-frame h3 {
+          font-size: 9px;
         }
 
         .privacy-card {
@@ -472,60 +640,146 @@
     <header class="page-header">
       <div class="container">
         <h1>How FollowDiff Works</h1>
-        <p>Everything you need to track Instagram follower changes, all running locally in your browser.</p>
+        <p>No data downloads from Instagram. No uploading files to sketchy websites. Just one click and you're tracking.</p>
       </div>
     </header>
 
-    <section>
+    <section class="film-roll-section">
       <div class="container">
         <div class="section-label">Features</div>
-        <h2 class="section-title">Built for privacy and simplicity</h2>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        <h2 class="section-title">Better than other follower trackers</h2>
+
+        <div class="preview-zone">
+          <div class="preview-card" data-preview="0">
+            <div class="preview-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 3.5V2m0 20v-1.5M2 9.5H3.5m17 0H22m-3.5-5.5L17 5.5M5.5 5.5 7 7m10 10 1.5 1.5M7 17l-1.5 1.5"/><circle cx="9" cy="9" r="4"/><path d="m15 15 6 6"/></svg>
             </div>
-            <h3>Save Snapshots</h3>
+            <h4>One-Click Tracking</h4>
+            <p>No downloading your Instagram data. No uploading files to websites. Just click a button and start tracking instantly.</p>
+          </div>
+          <div class="preview-card" data-preview="1">
+            <div class="preview-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+            </div>
+            <h4>Save Snapshots</h4>
             <p>Capture a profile's complete follower and following list at any moment. Save as many snapshots as you need.</p>
           </div>
-          <div class="feature-card">
-            <div class="feature-icon">
+          <div class="preview-card" data-preview="2">
+            <div class="preview-icon">
               <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M8 21H3v-5"/><path d="M21 3 9 15"/><path d="M3 21 15 9"/></svg>
             </div>
-            <h3>Compare Changes</h3>
+            <h4>Compare Changes</h4>
             <p>Select any two snapshots and instantly see who followed, unfollowed, or was removed between them.</p>
           </div>
-          <div class="feature-card">
-            <div class="feature-icon">
+          <div class="preview-card" data-preview="3">
+            <div class="preview-icon">
               <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             </div>
-            <h3>Export Data</h3>
+            <h4>Export Data</h4>
             <p>Download snapshots as JSON or export follower lists as plain text. Your data, your format.</p>
           </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <div class="preview-card" data-preview="4">
+            <div class="preview-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
             </div>
-            <h3>100% Private</h3>
+            <h4>100% Private</h4>
             <p>All data stays in your browser's local storage. Nothing is ever sent to external servers.</p>
           </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div class="preview-card" data-preview="5">
+            <div class="preview-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
-            <h3>Track Multiple Profiles</h3>
+            <h4>Track Multiple Profiles</h4>
             <p>Monitor as many Instagram accounts as you want. Each profile has its own snapshot history.</p>
           </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+          <div class="preview-card" data-preview="6">
+            <div class="preview-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
-            <h3>Fast Fetching</h3>
+            <h4>Fast Fetching</h4>
             <p>Efficiently fetches follower data using Instagram's web APIs. Optional slow mode for large accounts.</p>
+          </div>
+          <div class="preview-card" data-preview="7">
+            <div class="preview-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <h4>Open Source</h4>
+            <p>Fully open source on GitHub. Inspect the code, contribute, or fork it. No hidden tracking or shady behavior.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="film-roll-wrapper">
+        <div class="film-roll">
+          <div class="film-frame" data-index="0">
+            <div class="film-frame-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 3.5V2m0 20v-1.5M2 9.5H3.5m17 0H22m-3.5-5.5L17 5.5M5.5 5.5 7 7m10 10 1.5 1.5M7 17l-1.5 1.5"/><circle cx="9" cy="9" r="4"/><path d="m15 15 6 6"/></svg>
+            </div>
+            <h3>One-Click</h3>
+          </div>
+          <div class="film-frame" data-index="1">
+            <div class="film-frame-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+            </div>
+            <h3>Snapshots</h3>
+          </div>
+          <div class="film-frame" data-index="2">
+            <div class="film-frame-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M8 21H3v-5"/><path d="M21 3 9 15"/><path d="M3 21 15 9"/></svg>
+            </div>
+            <h3>Compare</h3>
+          </div>
+          <div class="film-frame" data-index="3">
+            <div class="film-frame-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            </div>
+            <h3>Export</h3>
+          </div>
+          <div class="film-frame" data-index="4">
+            <div class="film-frame-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3>Private</h3>
+          </div>
+          <div class="film-frame" data-index="5">
+            <div class="film-frame-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Multi-Profile</h3>
+          </div>
+          <div class="film-frame" data-index="6">
+            <div class="film-frame-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <h3>Fast</h3>
+          </div>
+          <div class="film-frame" data-index="7">
+            <div class="film-frame-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <h3>Open Source</h3>
           </div>
         </div>
       </div>
     </section>
+
+    <script>
+      const filmFrames = document.querySelectorAll('.film-frame');
+      const previewCards = document.querySelectorAll('.preview-card');
+
+      filmFrames.forEach(frame => {
+        frame.addEventListener('mouseenter', () => {
+          const index = frame.dataset.index;
+          previewCards.forEach(card => {
+            card.classList.toggle('active', card.dataset.preview === index);
+          });
+        });
+
+        frame.addEventListener('mouseleave', () => {
+          previewCards.forEach(card => card.classList.remove('active'));
+        });
+      });
+    </script>
 
     <section>
       <div class="container">
@@ -571,7 +825,7 @@
             </div>
             <div class="privacy-badge">
               <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-              Open source friendly
+              Fully open source
             </div>
           </div>
         </div>
@@ -581,11 +835,8 @@
     <section class="cta">
       <div class="container">
         <h2>Start tracking today</h2>
-        <p>See who's following and unfollowing any public Instagram account.</p>
-        <span class="btn primary coming-soon">
-          <span class="btn-text">Download for Chrome</span>
-          <span class="btn-hover-text">Coming Soon</span>
-        </span>
+        <p>No data downloads. No file uploads. Just one click.</p>
+        <a href="https://chromewebstore.google.com/detail/aaceanoaafnpeenehkddbmmjlhgeodkd" target="_blank" class="btn primary">Add to Chrome</a>
       </div>
     </section>
 
@@ -598,15 +849,5 @@
         </div>
       </div>
     </footer>
-
-    <script>
-      document.querySelectorAll('.btn.coming-soon').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.preventDefault();
-          btn.classList.add('tapped');
-          setTimeout(() => btn.classList.remove('tapped'), 2000);
-        });
-      });
-    </script>
   </body>
 </html>
